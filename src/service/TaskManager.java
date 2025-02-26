@@ -1,12 +1,19 @@
+package service;
+
+import model.Epic;
+import model.Status;
+import model.SubTask;
+import model.Task;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 public class TaskManager {
-    private static int id = 0;
-    HashMap<Integer, Task> tasks= new HashMap<>();
-    HashMap<Integer, Epic> epics= new HashMap<>();
-    HashMap<Integer, SubTask> subTasks= new HashMap<>();
+    private int id = 0;
+   private  HashMap<Integer, Task> tasks= new HashMap<>();
+   private HashMap<Integer, Epic> epics= new HashMap<>();
+   private HashMap<Integer, SubTask> subTasks= new HashMap<>();
 
     public int generateId() {
         return ++id;
@@ -15,7 +22,6 @@ public class TaskManager {
 
     public List<Task> getAllTasks() {
         if (tasks.size() == 0) {
-            System.out.println("Список задач пуст");
             return Collections.emptyList();
         }
         return new ArrayList<>(tasks.values());
@@ -24,14 +30,12 @@ public class TaskManager {
 
     public List<Epic> getAllEpics() {
         if (epics.size() == 0) {
-            System.out.println("Список эпиков пуст");
             return Collections.emptyList();
         }
         return new ArrayList<>(epics.values());
     }
     public List<SubTask> getAllSubtasks() {
         if (subTasks.size() == 0) {
-            System.out.println("Список подзадач пуст");
             return Collections.emptyList();
         }
         return new ArrayList<>(subTasks.values());
@@ -95,37 +99,29 @@ public class TaskManager {
             updateStatusEpic(epic);
             return newSubtaskId;
         } else {
-            System.out.println("Эпиков не нашел");
             return -1;
         }
     }
 
 
-    public void updateTask(Task task) {
+    private void updateTask(Task task) {
         if (tasks.containsKey(task.getId())) {
             tasks.put(task.getId(), task);
-        } else {
-            System.out.println("Задач не нашел");
         }
     }
 
 
-    public void updateEpic(Epic epic) {
+    private void updateEpic(Epic epic) {
         if (epics.containsKey(epic.getId())) {
             epics.put(epic.getId(), epic);
-            updateStatusEpic(epic);
-        } else {
-            System.out.println("Эпиков не нашел");
         }
     }
 
-    public void updateSubtask(SubTask subtask) {
+    private void updateSubtask(SubTask subtask) {
         if (subTasks.containsKey(subtask.getId())) {
             subTasks.put(subtask.getId(), subtask);
             Epic epic = epics.get(subtask.getEpicId());
             updateStatusEpic(epic);
-        } else {
-            System.out.println("Подзадач не нашел");
         }
     }
 
@@ -133,8 +129,6 @@ public class TaskManager {
     public void deleteTaskById(int id) {
         if (tasks.containsKey(id)) {
             tasks.remove(id);
-        } else {
-            System.out.println("Задач не нашел");
         }
     }
 
@@ -145,8 +139,6 @@ public class TaskManager {
                 subTasks.remove(subtaskId);
             }
             epics.remove(id);
-        } else {
-            System.out.println("Эпиков не нашел");
         }
     }
 
@@ -158,8 +150,6 @@ public class TaskManager {
             epic.getSubTasksIds().remove((Integer) subtask.getId());
             updateStatusEpic(epic);
             subTasks.remove(id);
-        } else {
-            System.out.println("Подзадач не нашел");
         }
     }
 
@@ -212,8 +202,6 @@ public class TaskManager {
                     epic.setStatus(Status.IN_PROGRESS);
                 }
             }
-        } else {
-            System.out.println("Эпиков не нашел");
         }
     }
 }
