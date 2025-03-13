@@ -1,7 +1,8 @@
-package model;
+  package model;
 
 import java.util.Objects;
 public class Task {
+
     private  String name;
     private  String description;
     private int id;
@@ -65,4 +66,20 @@ public class Task {
         int result=Objects.hash(name, description, id, status);
         return result;
     }
+    @Override
+    public String toString() {
+        return "Task{" +
+                "name='" + name + '\'' +
+                ", description=" + description +
+                ", id='" + id + '\'' +
+                ", status=" + status +
+                '}';
+    }
+
+
+
+
+
+
+
 }
