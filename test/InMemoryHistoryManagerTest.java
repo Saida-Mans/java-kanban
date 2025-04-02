@@ -1,14 +1,11 @@
-package Test;
+package test;
 
 import model.Task;
 import org.junit.jupiter.api.Test;
 import service.HistoryManager;
 import service.Managers;
-import service.TaskManager;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static model.Status.NEW;
 import static org.junit.jupiter.api.Assertions.assertEquals;
