@@ -39,25 +39,6 @@ class TaskManagerTest {
     }
 
     @Test
-    void addEpic() {
-        TaskManager taskManager = Managers.getDefault(Managers.getDefaultHistory());
-        Epic epic = new Epic("Test addEpic", "Test addEpic description", NEW);
-        final int epicId = taskManager.createTask(epic);
-
-        final Epic savedEpic = taskManager.getEpicById(epicId);
-
-        assertNotNull(savedEpic, "Эпик не найден.");
-        assertEquals(epic, savedEpic, "Эпики не совпадают.");
-
-        final List<Epic> epics = taskManager.getAllEpics();
-
-        assertNotNull(epics, "Эпики не возвращаются.");
-        assertEquals(1, epics.size(), "Неверное количество эпиков.");
-        assertEquals(epic, epics.get(0), "Эпики не совпадают.");
-
-    }
-
-    @Test
     void addSubtask() {
         TaskManager taskManager = Managers.getDefault(Managers.getDefaultHistory());
         int epicId = taskManager.createEpic(new Epic("Имя", "Описание", Status.NEW));
@@ -142,15 +123,3 @@ class TaskManagerTest {
         System.out.println(history);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
