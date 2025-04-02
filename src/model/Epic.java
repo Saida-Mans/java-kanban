@@ -17,16 +17,17 @@ public class Epic extends Task {
    }
 
    public void setSubTasksIds(int id) {
-      if (id==super.getId())
+      if (id == super.getId())
          throw new RuntimeException("Subtasks Id equals to Epics Id");
       subTasks.add(id);
    }
+
    @Override
    public String toString() {
       return "Epic{" +
               "subtaskIds=" + subTasks + "name='" + getName() + '\'' +
               ", description=" + getDescription() +
-              ", id='" + getId()+ '\'' +
+              ", id='" + getId() + '\'' +
               ", status=" + getStatus() +
               '}';
    }
