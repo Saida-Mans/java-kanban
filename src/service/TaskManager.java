@@ -5,7 +5,6 @@ import model.Task;
 import java.util.List;
 
 public interface TaskManager {
-    int generateId();
 
     List<Task> getAllTasks();
 
@@ -35,18 +34,13 @@ public interface TaskManager {
 
     void updateSubtask(SubTask subtask);
 
-
     void deleteTaskById(int id);
 
     void deleteEpicById(int id);
 
     void deleteSubtaskById(int id);
 
-
-
     List<SubTask> getAllSubtasksEpic(int id);
-
-    void updateStatusEpic(Epic epic);
 
     List<Task> getHistory();
 
