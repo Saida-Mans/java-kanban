@@ -18,6 +18,7 @@ class TaskManagerTest {
 
     @Test
     void addNewTask() {
+        TaskManager taskManager = Managers.getDefault(Managers.getDefaultHistory());
         Task task = new Task("Test addNewTask", "Test addNewTask description", NEW);
         final int taskId = taskManager.createTask(task);
 
@@ -39,6 +40,7 @@ class TaskManagerTest {
 
     @Test
     void addEpic() {
+        TaskManager taskManager = Managers.getDefault(Managers.getDefaultHistory());
         Epic epic = new Epic("Test addEpic", "Test addEpic description", NEW);
         final int epicId = taskManager.createTask(epic);
 
@@ -84,16 +86,6 @@ class TaskManagerTest {
         });
     }
 
-    @Test
-    void addSubtaskAsEpic() {
-        TaskManager taskManager = Managers.getDefault(Managers.getDefaultHistory());
-        Epic epic = new Epic("Эпик-1", "Описание-2", NEW);
-        int epicId = taskManager.createEpic(epic);
-        epic.setSubTasksIds(epicId);
-
-        SubTask subTask = new SubTask("Имя2", "Описание2", Status.NEW, epicId);
-
-    }
 
     @Test
     public void deleteAllTasks() {
