@@ -9,9 +9,9 @@ import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     private int id = 0;
-    private Map<Integer, Task> tasks = new HashMap<>();
-    private Map<Integer, Epic> epics = new HashMap<>();
-    private Map<Integer, SubTask> subTasks = new HashMap<>();
+    private final Map<Integer, Task> tasks = new HashMap<>();
+    private final Map<Integer, Epic> epics = new HashMap<>();
+    private final Map<Integer, SubTask> subTasks = new HashMap<>();
     private HistoryManager historyManager;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
@@ -144,7 +144,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteTaskById(int id) {
         if (tasks.containsKey(id)) {
             tasks.remove(id);
-        }
+        } historyManager.remove(id);
     }
 
     @Override
@@ -155,7 +155,7 @@ public class InMemoryTaskManager implements TaskManager {
                 subTasks.remove(subtaskId);
             }
             epics.remove(id);
-        }
+        } historyManager.remove(id);
     }
 
     @Override
@@ -166,7 +166,7 @@ public class InMemoryTaskManager implements TaskManager {
             epic.getSubTasksIds().remove((Integer) subtask.getId());
             updateStatusEpic(epic);
             subTasks.remove(id);
-        }
+        } historyManager.remove(id);
     }
 
 
