@@ -34,7 +34,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         Node<Task> element = head;
         while (element != null) {
             result.add(element.getTask());
-            element=element.getNext();
+            element = element.getNext();
         }
         return result;
     }
