@@ -5,12 +5,12 @@ import model.Task;
 import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final Map<Integer, Node> table = new HashMap<>();
-    private Node head;
-    private Node tail;
+    private final Map<Integer, Node<Task>> table = new HashMap<>();
+    private Node<Task> head;
+    private Node<Task> tail;
 
     private void linkLast(Task task) {
-        Node element = new Node();
+        Node<Task> element = new Node();
         element.setTask(task);
         if (table.containsKey(task.getId())) {
             removeNode(table.get(task.getId()));
@@ -42,8 +42,8 @@ public class InMemoryHistoryManager implements HistoryManager {
     private void removeNode(Node node) {
         if (node != null) {
             table.remove(node.getTask().getId());
-            Node prev = node.getPrev();
-            Node next = node.getNext();
+            Node<Task> prev = node.getPrev();
+            Node<Task> next = node.getNext();
 
             if (head == node) {
                 head = node.getNext();
