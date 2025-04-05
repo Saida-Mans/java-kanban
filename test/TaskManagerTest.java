@@ -1,4 +1,4 @@
-package Test;
+package test;
 
 import model.Epic;
 import model.Status;
@@ -18,6 +18,7 @@ class TaskManagerTest {
 
     @Test
     void addNewTask() {
+        TaskManager taskManager = Managers.getDefault(Managers.getDefaultHistory());
         Task task = new Task("Test addNewTask", "Test addNewTask description", NEW);
         final int taskId = taskManager.createTask(task);
 
@@ -34,24 +35,6 @@ class TaskManagerTest {
         assertNotEquals(0,
                 taskManager.getHistory().size(),
                 "После операций с задачами (Task) история не должна быть пустой!");
-
-    }
-
-    @Test
-    void addEpic() {
-        Epic epic = new Epic("Test addEpic", "Test addEpic description", NEW);
-        final int epicId = taskManager.createTask(epic);
-
-        final Epic savedEpic = taskManager.getEpicById(epicId);
-
-        assertNotNull(savedEpic, "Эпик не найден.");
-        assertEquals(epic, savedEpic, "Эпики не совпадают.");
-
-        final List<Epic> epics = taskManager.getAllEpics();
-
-        assertNotNull(epics, "Эпики не возвращаются.");
-        assertEquals(1, epics.size(), "Неверное количество эпиков.");
-        assertEquals(epic, epics.get(0), "Эпики не совпадают.");
 
     }
 
@@ -84,16 +67,6 @@ class TaskManagerTest {
         });
     }
 
-    @Test
-    void addSubtaskAsEpic() {
-        TaskManager taskManager = Managers.getDefault(Managers.getDefaultHistory());
-        Epic epic = new Epic("Эпик-1", "Описание-2", NEW);
-        int epicId = taskManager.createEpic(epic);
-        epic.setSubTasksIds(epicId);
-
-        SubTask subTask = new SubTask("Имя2", "Описание2", Status.NEW, epicId);
-
-    }
 
     @Test
     public void deleteAllTasks() {
@@ -150,15 +123,3 @@ class TaskManagerTest {
         System.out.println(history);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

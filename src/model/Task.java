@@ -1,6 +1,7 @@
   package model;
 
 import java.util.Objects;
+
 public class Task {
 
     private  String name;
@@ -63,9 +64,10 @@ public class Task {
 
     @Override // не забываем об аннотации
     public int hashCode() {
-        int result=Objects.hash(name, description, id, status);
+        int result = Objects.hash(name, description, id, status);
         return result;
     }
+
     @Override
     public String toString() {
         return "Task{" +
@@ -75,11 +77,4 @@ public class Task {
                 ", status=" + status +
                 '}';
     }
-
-
-
-
-
-
-
 }
