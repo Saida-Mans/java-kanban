@@ -1,4 +1,4 @@
-  package model;
+package model;
 
 import TaskType.TaskType;
 
@@ -6,8 +6,8 @@ import java.util.Objects;
 
 public class Task {
 
-    private  String name;
-    private  String description;
+    private String name;
+    private String description;
     private int id;
     private Status status;
 
@@ -19,27 +19,27 @@ public class Task {
 
 
     }
-    public  TaskType getType() {
+    public TaskType getType() {
         return TaskType.TASK;
     }
 
-    public  String getName() {
+    public String getName() {
         return name;
     }
 
-    public  void setName(String name) {
-       this.name = name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getId() {
         return id;
     }
 
-    public  void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public  String getDescription() {
+    public String getDescription() {
         return description;
     }
 
@@ -67,7 +67,7 @@ public class Task {
 
     }
 
-    @Override // не забываем об аннотации
+    @Override
     public int hashCode() {
         int result = Objects.hash(name, description, id, status);
         return result;
@@ -82,6 +82,4 @@ public class Task {
                 ", status=" + status +
                 '}';
     }
-
-
 }
