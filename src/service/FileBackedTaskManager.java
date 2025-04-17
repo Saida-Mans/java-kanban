@@ -16,7 +16,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public  FileBackedTaskManager(HistoryManager historyManager, Path path) {
         super(historyManager);
-        try{
+        try {
             if (!Files.exists(path)) {
                 path = Paths.get("java-kanban/service", "testFile.csv");
                 Files.createFile(path);
@@ -25,7 +25,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void save() {
@@ -123,7 +122,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         } catch (IOException e) {
             e.printStackTrace();
-        } return manager;
+        }
+        return manager;
     }
 
     @Override
