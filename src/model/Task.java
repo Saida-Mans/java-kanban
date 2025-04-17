@@ -16,10 +16,9 @@ public class Task {
         this.description = description;
         this.id = id;
         this.status = status;
-
-
     }
-     public TaskType getType() {
+    
+    public TaskType getType() {
         return TaskType.TASK;
     }
 
