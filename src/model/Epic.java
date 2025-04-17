@@ -1,7 +1,5 @@
 package model;
 
-import TaskType.TaskType;
-
 import java.util.ArrayList;
 import java.util.List;
 

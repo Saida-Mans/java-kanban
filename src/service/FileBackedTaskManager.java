@@ -1,5 +1,5 @@
 package service;
-import TaskType.TaskType;
+import model.TaskType;
 import model.Epic;
 import model.Status;
 import model.SubTask;

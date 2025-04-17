@@ -1,7 +1,5 @@
 package model;
 
-import TaskType.TaskType;
-
 import java.util.Objects;
 
 public class Task {

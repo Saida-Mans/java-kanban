@@ -1,5 +1,4 @@
-package TaskType;
-
+package model;
 public enum TaskType {
     TASK,
     EPIC,
