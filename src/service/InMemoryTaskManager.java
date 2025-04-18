@@ -18,7 +18,7 @@ public class InMemoryTaskManager implements TaskManager {
         this.historyManager = historyManager;
     }
 
-    int generateId() {
+    protected int generateId() {
         return ++id;
     }
 
@@ -197,7 +197,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
 
-    void updateStatusEpic(Epic epic) {
+    protected void updateStatusEpic(Epic epic) {
         if (epics.containsKey(epic.getId())) {
             if (epic.getSubTasksIds().size() == 0) {
                 epic.setStatus(Status.NEW);
