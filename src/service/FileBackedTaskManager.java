@@ -118,9 +118,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     }
                 }
             }
-
-            //currentId = manager.tasks.size();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
