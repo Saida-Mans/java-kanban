@@ -1,5 +1,6 @@
 import model.Epic;
 import model.Status;
+import model.SubTask;
 import model.Task;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,13 +43,17 @@ class FileBackedTaskManagerTest extends InMemoryTaskManagerTest<FileBackedTaskMa
         Epic epic1 = new Epic("Test Epic", "Test Epic description", Status.NEW);
         int taskId = manager.createTask(task1);
         int epicId = manager.createEpic(epic1);
+        SubTask subTask = new SubTask("SubTask Name", "SubTask Description", Status.NEW, epicId);
+        int subTaskId = manager.createSubtask(subTask);
         manager.save();
         FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(path);
         Task loadedTask = loadedManager.getTaskById(taskId);
         Epic loadedEpic = loadedManager.getEpicById(epicId);
+        SubTask savedSubTask = loadedManager.getSubtaskById(subTaskId);
         assertNotNull(loadedTask, "Задача не загрузилась");
         assertNotNull(loadedEpic, "Эпик не загрузился");
+        assertNotNull(savedSubTask, "Сабтаск не был сохранен");
         List<Task> history = loadedManager.getHistory();
-        assertEquals(2, history.size(), "История задач восстановилась некорректно");
+        assertEquals(3, history.size(), "История задач восстановилась некорректно");
     }
 }
