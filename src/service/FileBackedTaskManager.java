@@ -95,7 +95,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public static FileBackedTaskManager loadFromFile(Path path) {
         FileBackedTaskManager manager = new FileBackedTaskManager(new InMemoryHistoryManager(), path);
-        int maxId=0;
+        int maxId = 0;
         try {
             String content = Files.readString(path);
             String[] arrayStrings = content.split("\n");
@@ -105,7 +105,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     continue;
                 }
                 Task task = fromString(line);
-                maxId= Math.max(maxId, task.getId());
+                maxId = Math.max(maxId, task.getId());
                 switch (task.getType()) {
                     case TASK -> manager.tasks.put(task.getId(), task);
                     case EPIC -> manager.epics.put(task.getId(), (Epic) task);
@@ -122,7 +122,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        manager.currentId=maxId;
+        manager.currentId = maxId;
         return manager;
     }
 
