@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
-class FileBackedTaskManagerTest extends InMemoryTaskManagerTest<FileBackedTaskManager>{
+class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager>{
     public File tempFile;
     public Path path;
 

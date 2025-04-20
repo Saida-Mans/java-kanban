@@ -13,7 +13,7 @@ import java.nio.file.StandardOpenOption;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private Path path;
-    private static int currentId = 0;
+    private int currentId = 0;
 
     public  FileBackedTaskManager(HistoryManager historyManager, Path path) {
         super(historyManager);
@@ -95,6 +95,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public static FileBackedTaskManager loadFromFile(Path path) {
         FileBackedTaskManager manager = new FileBackedTaskManager(new InMemoryHistoryManager(), path);
+        int maxId=0;
         try {
             String content = Files.readString(path);
             String[] arrayStrings = content.split("\n");
@@ -104,7 +105,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     continue;
                 }
                 Task task = fromString(line);
-                //currentId= Math.max(currentId, task.getId());
+                maxId= Math.max(maxId, task.getId());
                 switch (task.getType()) {
                     case TASK -> manager.tasks.put(task.getId(), task);
                     case EPIC -> manager.epics.put(task.getId(), (Epic) task);
@@ -121,6 +122,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        manager.currentId=maxId;
         return manager;
     }
 
@@ -151,7 +153,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public int createTask(Task task) {
         super.createTask(task);
         save();
-        //return generateId();
         return currentId;
     }
 
@@ -159,7 +160,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public int createEpic(Epic epic) {
         super.createEpic(epic);
         save();
-        //return generateId();
         return currentId;
     }
 
@@ -167,7 +167,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public int createSubtask(SubTask subtask) {
         super.createSubtask(subtask);
         save();
-        //return generateId();
         return currentId;
     }
 }
