@@ -13,7 +13,6 @@ import java.nio.file.StandardOpenOption;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private Path path;
-    private int currentId = 0;
 
     public  FileBackedTaskManager(HistoryManager historyManager, Path path) {
         super(historyManager);
@@ -95,7 +94,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public static FileBackedTaskManager loadFromFile(Path path) {
         FileBackedTaskManager manager = new FileBackedTaskManager(new InMemoryHistoryManager(), path);
-        int maxId = 0;
         try {
             String content = Files.readString(path);
             String[] arrayStrings = content.split("\n");
@@ -105,7 +103,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     continue;
                 }
                 Task task = fromString(line);
-                maxId = Math.max(maxId, task.getId());
+                id = Math.max(id, task.getId());
                 switch (task.getType()) {
                     case TASK -> manager.tasks.put(task.getId(), task);
                     case EPIC -> manager.epics.put(task.getId(), (Epic) task);
@@ -122,13 +120,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        manager.currentId = maxId;
         return manager;
-    }
-
-    @Override
-    protected int generateId() {
-        return ++currentId;
     }
 
     @Override
@@ -153,20 +145,20 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public int createTask(Task task) {
         super.createTask(task);
         save();
-        return currentId;
+        return task.getId();
     }
 
     @Override
     public int createEpic(Epic epic) {
         super.createEpic(epic);
         save();
-        return currentId;
+        return epic.getId();
     }
 
     @Override
     public int createSubtask(SubTask subtask) {
         super.createSubtask(subtask);
         save();
-        return currentId;
+        return subtask.getId();
     }
 }
