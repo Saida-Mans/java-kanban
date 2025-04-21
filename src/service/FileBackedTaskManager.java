@@ -103,7 +103,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     continue;
                 }
                 Task task = fromString(line);
-                id = Math.max(id, task.getId());
+                manager.id = Math.max(manager.id, task.getId());
                 switch (task.getType()) {
                     case TASK -> manager.tasks.put(task.getId(), task);
                     case EPIC -> manager.epics.put(task.getId(), (Epic) task);
