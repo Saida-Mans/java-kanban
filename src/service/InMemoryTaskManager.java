@@ -8,17 +8,17 @@ import model.Task;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    private int id = 0;
-    private final Map<Integer, Task> tasks = new HashMap<>();
-    private final Map<Integer, Epic> epics = new HashMap<>();
-    private final Map<Integer, SubTask> subTasks = new HashMap<>();
+    protected int id = 0;
+    protected final Map<Integer, Task> tasks = new HashMap<>();
+    protected final Map<Integer, Epic> epics = new HashMap<>();
+    protected final Map<Integer, SubTask> subTasks = new HashMap<>();
     private HistoryManager historyManager;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
     }
 
-    private int generateId() {
+    protected int generateId() {
         return ++id;
     }
 
@@ -197,7 +197,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
 
-    private void updateStatusEpic(Epic epic) {
+    protected void updateStatusEpic(Epic epic) {
         if (epics.containsKey(epic.getId())) {
             if (epic.getSubTasksIds().size() == 0) {
                 epic.setStatus(Status.NEW);

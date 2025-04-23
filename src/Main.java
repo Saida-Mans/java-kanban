@@ -13,8 +13,5 @@ public class Main {
         taskManager.createTask(new Epic("Имя", "Описание", Status.NEW));
         taskManager.createSubtask(new SubTask("Имя2", "Описание2", Status.NEW, 1));
         taskManager.createSubtask(new SubTask("Имя", "Описание", Status.NEW, 1));
-
-
-
     }
 }

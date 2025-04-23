@@ -22,7 +22,6 @@ public interface TaskManager {
 
     Epic getEpicById(int id);
 
-
     SubTask getSubtaskById(int id);
 
     int createTask(Task task);
@@ -46,5 +45,4 @@ public interface TaskManager {
     List<SubTask> getAllSubtasksEpic(int id);
 
     List<Task> getHistory();
-
 }
