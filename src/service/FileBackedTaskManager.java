@@ -80,12 +80,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         Task task;
         switch (type) {
             case TASK:
-                task = new Task(name, description, status, duration, startTime );
+                task = new Task(name, description, status, duration, startTime);
                 task.setId(id);
                 return task;
 
             case EPIC:
-                Epic epic = new Epic(name, description, status, duration, startTime );
+                Epic epic = new Epic(name, description, status, duration, startTime);
                 epic.setId(id);
                 return epic;
 
