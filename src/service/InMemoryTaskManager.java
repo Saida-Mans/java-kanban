@@ -93,7 +93,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         return false;
     }
-    
+
     @Override
     public List<Task> getAllTasks() {
         if (tasks.size() == 0) {
