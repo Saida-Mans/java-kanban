@@ -27,8 +27,8 @@ public class SubTask extends Task {
                 ", description=" + getDescription() +
                 ", id='" + getId() + '\'' +
                 ", status=" + getStatus() +
-                ", duration=" + getDuration()+
-                ", startTime= "+ getStartTime()+
+                ", duration=" + getDuration() +
+                ", startTime= " + getStartTime() +
                 '}';
     }
 }

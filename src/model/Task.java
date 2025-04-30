@@ -95,8 +95,8 @@ public class Task {
                 ", description=" + description +
                 ", id='" + id + '\'' +
                 ", status=" + status +
-                ", duration=" + getDuration()+
-                ", startTime= "+ getStartTime()+
+                ", duration=" + getDuration() +
+                ", startTime= " + getStartTime() +
                 '}';
     }
 }
