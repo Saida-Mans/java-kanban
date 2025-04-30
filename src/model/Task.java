@@ -3,7 +3,8 @@ package model;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.time.Duration;
-public class Task {
+
+  public class Task {
 
     private String name;
     private String description;
