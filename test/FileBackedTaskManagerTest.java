@@ -42,10 +42,10 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager>{
     @Test
     public void shouldCorrectlySaveAndLoad() {
         Task task1 = new Task("Test Task", "Test Description", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2025, 1, 1, 10, 0));
-        Epic epic1 = new Epic("Test Epic", "Test Epic description", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2025, 1, 1, 10, 0));
+        Epic epic1 = new Epic("Test Epic", "Test Epic description", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2025, 1, 1, 15, 0));
         int taskId = manager.createTask(task1);
         int epicId = manager.createEpic(epic1);
-        SubTask subTask = new SubTask("SubTask Name", "SubTask Description", Status.NEW, epicId, Duration.ofMinutes(60), LocalDateTime.of(2025, 1, 1, 10, 0));
+        SubTask subTask = new SubTask("SubTask Name", "SubTask Description", Status.NEW, epicId, Duration.ofMinutes(60), LocalDateTime.of(2025, 1, 1, 17, 0));
         int subTaskId = manager.createSubtask(subTask);
         manager.save();
         FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(path);

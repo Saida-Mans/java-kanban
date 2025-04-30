@@ -24,7 +24,7 @@ public abstract class TaskManagerTest <T extends TaskManager>  {
     @Test
     public void shouldCreateAndReturnTask() {
         Task task = new Task("Test Task", "Test Description", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2025, 1, 1, 10, 0));
-        Task task1 = new Task("Test Task", "Test Description", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2025, 1, 1, 10, 0));
+        Task task1 = new Task("Test Task", "Test Description", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2025, 1, 1, 15, 0));
         int taskId = manager.createTask(task);
         int taskId1 = manager.createTask(task1);
         Task savedTask = manager.getTaskById(taskId);
