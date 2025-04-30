@@ -80,7 +80,7 @@ public class InMemoryTaskManager implements TaskManager {
                 .forEach(prioritizedTasks::add);
     }
 
-    private boolean isAnyTaskOverlapping(Task newTask, Collection<Task> tasks) {
+     private boolean isAnyTaskOverlapping(Task newTask, Collection<Task> tasks) {
         for (Task existing : tasks) {
             if (existing.getId() == newTask.getId()) continue;
             if (existing.getStartTime() != null && newTask.getStartTime() != null &&
