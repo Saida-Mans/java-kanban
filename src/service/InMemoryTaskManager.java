@@ -93,6 +93,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         return false;
     }
+    
     @Override
     public List<Task> getAllTasks() {
         if (tasks.size() == 0) {
@@ -238,6 +239,7 @@ public class InMemoryTaskManager implements TaskManager {
             subTasks.put(subtask.getId(), old);
         }
     }
+
     @Override
     public void deleteTaskById(int id) {
         if (tasks.containsKey(id)) {
@@ -313,6 +315,7 @@ public class InMemoryTaskManager implements TaskManager {
             epic.setStatus(Status.IN_PROGRESS);
         }
     }
+
     @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();
