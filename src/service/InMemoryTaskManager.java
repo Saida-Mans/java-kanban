@@ -64,6 +64,7 @@ public class InMemoryTaskManager implements TaskManager {
         updateStatusEpic(epic);
         updateEpicTime(epic);
     }
+    
     public List<Task> getAllTasksAndSubtasks() {
         return Stream.concat(
                 Stream.concat(tasks.values().stream(), subTasks.values().stream()),
