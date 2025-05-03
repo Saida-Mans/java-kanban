@@ -1,10 +1,13 @@
 package test;
 
+import model.Status;
 import model.Task;
 import org.junit.jupiter.api.Test;
 import service.HistoryManager;
 import service.Managers;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static model.Status.NEW;
@@ -22,7 +25,7 @@ class InMemoryHistoryManagerTest {
     @Test
     void add() {
         HistoryManager historyManager = Managers.getDefaultHistory();
-        Task task1= new Task("Test addNewTask", "Test addNewTask description", NEW);
+        Task task1= new Task("Test Task", "Test Description", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2025, 1, 1, 10, 0));
         historyManager.add(task1);
         assertEquals(List.of(task1), historyManager.getHistory());
     }
