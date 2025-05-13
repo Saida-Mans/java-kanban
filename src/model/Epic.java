@@ -8,9 +8,9 @@ import java.util.List;
 public class Epic extends Task {
 
     private List<Integer> subTasks = new ArrayList<>();
-    private Duration duration;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private transient Duration duration;
+    private transient LocalDateTime startTime;
+    private transient LocalDateTime endTime;
 
     public Epic(String name, String description, Status status, Duration duration, LocalDateTime startTime) {
         super(name, description, status, null, null);
@@ -37,11 +37,6 @@ public class Epic extends Task {
         duration = Duration.ZERO;
         startTime = null;
         endTime = null;
-    }
-
-    @Override
-    public Duration getDuration() {
-        return duration;
     }
 
     @Override

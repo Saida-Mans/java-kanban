@@ -134,7 +134,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void updateTask(Task task) {
+    public void updateTask(Task task) throws NotFoundException {
         super.updateTask(task);
         save();
     }
