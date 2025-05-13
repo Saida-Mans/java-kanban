@@ -86,7 +86,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 return task;
 
             case EPIC:
-                Epic epic = new Epic(name, description, status, duration, startTime);
+                Epic epic = new Epic(name, description, status, null, null);
                 epic.setId(id);
                 return epic;
 
@@ -119,7 +119,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                         manager.subTasks.put(task.getId(), subtask);
                         Epic epic = manager.epics.get(subtask.getEpicId());
                         if (epic != null) {
-                            epic.setSubTasksIds(subtask.getId());
+                            epic.addSubTaskId(subtask.getId());
                         }
                     }
                 }
@@ -132,7 +132,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
         return manager;
     }
-
     @Override
     public void updateTask(Task task) throws NotFoundException {
         super.updateTask(task);

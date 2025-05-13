@@ -190,16 +190,20 @@ public class InMemoryTaskManager implements TaskManager {
         int newSubtaskId = generateId();
         subtask.setId(newSubtaskId);
         Epic epic = epics.get(subtask.getEpicId());
+
         if (epic != null) {
             if (isAnyTaskOverlapping(subtask, getAllTasksAndSubtasks())) {
                 throw new IllegalArgumentException("Подзадача пересекается с другой задачей!");
             }
             subTasks.put(newSubtaskId, subtask);
-            epic.setSubTasksIds(newSubtaskId);
+            epic.addSubTaskId(newSubtaskId);
+
             updateEpicFields(epic);
+
             if (subtask.getStartTime() != null) {
                 prioritizedTasks.add(subtask);
             }
+
             return newSubtaskId;
         } else {
             return -1;

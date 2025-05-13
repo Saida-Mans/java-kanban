@@ -33,7 +33,6 @@ class SubtasksHandlerTest extends HttpTaskServerTest {
                 .POST(HttpRequest.BodyPublishers.ofString(json))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
         assertEquals(200, response.statusCode(), "Ожидается 200 OK");
 
         List<SubTask> subtasks = manager.getAllSubtasks();
