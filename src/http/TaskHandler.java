@@ -1,7 +1,5 @@
 package http;
 
-import adapters.GsonFactory;
-import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import model.Task;
@@ -15,8 +13,9 @@ import java.util.List;
 
 public class TaskHandler extends BaseHttpHandler implements HttpHandler {
     private final TaskManager manager;
-    private final Gson gson = GsonFactory.getGson();
-
+    private static final String GET = "GET";
+    private static final String POST = "POST";
+    private static final String DELETE = "DELETE";
     public TaskHandler(TaskManager manager) {
         this.manager = manager;
     }
@@ -29,11 +28,11 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
         try {
             if (path.equals("/tasks")) {
                 switch (method) {
-                    case "GET":
+                    case GET:
                         List<Task> tasks = manager.getAllTasks();
                         sendText(exchange, gson.toJson(tasks));
                         break;
-                    case "POST":
+                    case POST:
                         String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
                         Task task = gson.fromJson(body, Task.class);
                         if (task.getId() != 0 && manager.getTaskById(task.getId()) != null) {
@@ -49,7 +48,7 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
             } else if (path.matches("^/tasks/\\d+$")) {
                 int id = extractIdFromPath(path);
                 switch (method) {
-                    case "GET":
+                    case GET:
                         try {
                             Task task = manager.getTaskById(id);
                             sendText(exchange, gson.toJson(task));
@@ -57,7 +56,7 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
                             sendNotFound(exchange);
                         }
                         break;
-                    case "DELETE":
+                    case DELETE:
                         manager.deleteTaskById(id);
                         sendText(exchange, "Deleted");
                         break;
@@ -73,7 +72,6 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
             sendConflict(exchange);
         } catch (Exception e) {
             e.printStackTrace();
-            sendServerError(exchange);
         }
     }
 
@@ -84,18 +82,5 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
         } catch (Exception e) {
             return -1;
         }
-    }
-
-    protected void sendConflict(HttpExchange h) throws IOException {
-        String response = "{\"error\":\"Task intersects with existing task\"}";
-        byte[] resp = response.getBytes(StandardCharsets.UTF_8);
-        h.sendResponseHeaders(406, resp.length);
-        h.getResponseBody().write(resp);
-        h.close();
-    }
-
-    protected void sendMethodNotAllowed(HttpExchange h) throws IOException {
-        h.sendResponseHeaders(405, 0);
-        h.close();
     }
 }

@@ -1,7 +1,5 @@
 package http;
 
-import adapters.GsonFactory;
-import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import model.Epic;
@@ -13,8 +11,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
+
+    private static final String GET = "GET";
+    private static final String POST = "POST";
+    private static final String DELETE = "DELETE";
     private final TaskManager manager;
-    private final Gson gson =  GsonFactory.getGson();
 
     public EpicsHandler(TaskManager manager) {
         this.manager = manager;
@@ -26,70 +27,56 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
         String path = exchange.getRequestURI().getPath();
 
         try {
-            if (path.equals("/epics")) {
-                // /epics — GET getEpics() -> 200
-                if ("GET".equals(method)) {
-                    List<Epic> epics = manager.getAllEpics();
-                    sendText(exchange, gson.toJson(epics), 200);
-                } else {
-                    sendMethodNotAllowed(exchange);
-                }
-
-            } else if (path.matches("^/epics/\\d+$")) {
+            if ("/epics".equals(path) && GET.equals(method)) {
+                List<Epic> epics = manager.getAllEpics();
+                sendText(exchange, gson.toJson(epics));
+                return;
+            }
+            if (path.matches("^/epics/\\d+$")) {
                 int id = extractIdFromPath(path);
-                switch (method) {
-                    case "GET": {
-                        Epic epic = manager.getEpicById(id);
-                        if (epic != null) {
-                            sendText(exchange, gson.toJson(epic), 200);
-                        } else {
-                            sendNotFound(exchange);
-                        }
-                        break;
-                    }
-                    case "POST": {
-                        String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
-                        Epic newEpic = gson.fromJson(body, Epic.class);
-                        manager.createEpic(newEpic);
-                        sendText(exchange, "Created", 201);
-                        break;
-                    }
-                    case "DELETE": {
-                        if (manager.getEpicById(id) != null) {
-                            manager.deleteEpicById(id);
-                            sendText(exchange, "Deleted", 200);
-                        } else {
-                            sendNotFound(exchange);
-                        }
-                        break;
-                    }
-                    default:
-                        sendMethodNotAllowed(exchange);
-                }
-            } else if (path.matches("^/epics/\\d+/subtasks$")) {
-                int id = extractIdFromPath(path);
-                if ("GET".equals(method)) {
+                if (GET.equals(method)) {
                     Epic epic = manager.getEpicById(id);
-                    if (epic == null) {
-                        sendNotFound(exchange);
+                    if (epic != null) {
+                        sendText(exchange, gson.toJson(epic));
                     } else {
-                        List<SubTask> subTasks = manager.getAllSubtasksEpic(id);
-                        sendText(exchange, gson.toJson(subTasks), 200);
+                        sendNotFound(exchange);
+                    }
+                } else if (POST.equals(method)) {
+                    String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
+                    Epic newEpic = gson.fromJson(body, Epic.class);
+                    manager.createEpic(newEpic);
+                    sendCreated(exchange, "Created");
+
+                } else if (DELETE.equals(method)) {
+                    if (manager.getEpicById(id) != null) {
+                        manager.deleteEpicById(id);
+                        sendText(exchange, "Deleted");
+                    } else {
+                        sendNotFound(exchange);
                     }
                 } else {
-                    sendMethodNotAllowed(exchange);
+                    sendNotFound(exchange);
                 }
-
-            } else {
-                sendNotFound(exchange);
+                return;
             }
 
+            if (path.matches("^/epics/\\d+/subtasks$") && GET.equals(method)) {
+                int id = extractIdFromPath(path);
+                Epic epic = manager.getEpicById(id);
+                if (epic == null) {
+                    sendNotFound(exchange);
+                } else {
+                    List<SubTask> subTasks = manager.getAllSubtasksEpic(id);
+                    sendText(exchange, gson.toJson(subTasks));
+                }
+                return;
+            }
+            sendNotFound(exchange);
         } catch (Exception e) {
             e.printStackTrace();
-            sendServerError(exchange);
+            sendNotFound(exchange);
         }
     }
-
     private int extractIdFromPath(String path) {
         try {
             String[] parts = path.split("/");
