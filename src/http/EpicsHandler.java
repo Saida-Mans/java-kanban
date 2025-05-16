@@ -58,7 +58,6 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
                 }
                 return;
             }
-
             if (path.matches("^/epics/\\d+/subtasks$") && GET.equals(method)) {
                 int id = extractIdFromPath(path);
                 Epic epic = manager.getEpicById(id);
@@ -76,7 +75,7 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
             sendNotFound(exchange);
         }
     }
-    
+
     private int extractIdFromPath(String path) {
         try {
             String[] parts = path.split("/");
