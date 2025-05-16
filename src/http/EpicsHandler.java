@@ -11,7 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
-
     private static final String GET = "GET";
     private static final String POST = "POST";
     private static final String DELETE = "DELETE";
