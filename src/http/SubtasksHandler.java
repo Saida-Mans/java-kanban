@@ -11,12 +11,15 @@ import service.NotFoundException;
 import service.TaskManager;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class SubtasksHandler extends BaseHttpHandler implements HttpHandler {
     private final TaskManager manager;
-    private final Gson gson = GsonFactory.getGson();
+    private static final String GET = "GET";
+    private static final String POST = "POST";
+    private static final String DELETE = "DELETE";
 
     public SubtasksHandler(TaskManager manager) {
         this.manager = manager;
@@ -30,11 +33,11 @@ public class SubtasksHandler extends BaseHttpHandler implements HttpHandler {
         try {
             if (path.equals("/subtasks")) {
                 switch (method) {
-                    case "GET":
+                    case GET:
                         List<Task> tasks = manager.getAllTasks();
                         sendText(exchange, gson.toJson(tasks));
                         break;
-                    case "POST":
+                    case POST:
                         String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
                         SubTask subTask = gson.fromJson(body, SubTask.class);
                         if (subTask.getId() != 0 && manager.getSubtaskById(subTask.getId()) != null) {
@@ -50,15 +53,15 @@ public class SubtasksHandler extends BaseHttpHandler implements HttpHandler {
             } else if (path.matches("^/subtasks/\\d+$")) {
                 int id = extractIdFromPath(path);
                 switch (method) {
-                    case "GET":
+                    case GET:
                         try {
                             SubTask subtask = manager.getSubtaskById(id);
                             sendText(exchange, gson.toJson(subtask));
                         } catch (NotFoundException e) {
-                            sendNotFound(exchange);  // Если задача не найдена
+                            sendNotFound(exchange);
                         }
                         break;
-                    case "DELETE":
+                    case DELETE:
                         manager.deleteTaskById(id);
                         sendText(exchange, "Deleted");
                         break;
@@ -93,8 +96,9 @@ public class SubtasksHandler extends BaseHttpHandler implements HttpHandler {
         String response = "{\"error\":\"Task intersects with existing task\"}";
         byte[] resp = response.getBytes(StandardCharsets.UTF_8);
         h.sendResponseHeaders(406, resp.length);
-        h.getResponseBody().write(resp);
-        h.close();
+        try (OutputStream os = h.getResponseBody()) {
+            os.write(resp);
+        }
     }
 
     protected void sendMethodNotAllowed(HttpExchange h) throws IOException {

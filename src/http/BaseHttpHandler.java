@@ -1,11 +1,16 @@
 package http;
 
+import adapters.GsonFactory;
+import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 public class BaseHttpHandler {
+    protected static final Gson gson =  GsonFactory.getGson();
+
     protected void sendText(HttpExchange h, String text) throws IOException {
         byte[] resp = text.getBytes(StandardCharsets.UTF_8);
         h.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
@@ -26,8 +31,9 @@ public class BaseHttpHandler {
         String response = "{\"error\":\"Task intersects with existing task\"}";
         byte[] resp = response.getBytes(StandardCharsets.UTF_8);
         h.sendResponseHeaders(406, resp.length);
-        h.getResponseBody().write(resp);
-        h.close();
+        try (OutputStream os = h.getResponseBody()) {
+            os.write(resp);
+        }
     }
 
     protected void sendMethodNotAllowed(HttpExchange h) throws IOException {
