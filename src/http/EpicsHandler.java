@@ -76,6 +76,7 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
             sendNotFound(exchange);
         }
     }
+    
     private int extractIdFromPath(String path) {
         try {
             String[] parts = path.split("/");
