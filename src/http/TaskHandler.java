@@ -16,6 +16,7 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
     private static final String GET = "GET";
     private static final String POST = "POST";
     private static final String DELETE = "DELETE";
+
     public TaskHandler(TaskManager manager) {
         this.manager = manager;
     }
