@@ -4,6 +4,7 @@ import model.SubTask;
 import model.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import service.NotFoundException;
 import service.TaskManager;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -22,7 +23,7 @@ public abstract class TaskManagerTest <T extends TaskManager>  {
     }
 
     @Test
-    public void shouldCreateAndReturnTask() {
+    public void shouldCreateAndReturnTask() throws NotFoundException {
         Task task = new Task("Test Task", "Test Description", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2025, 1, 1, 10, 0));
         Task task1 = new Task("Test Task", "Test Description", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2025, 1, 1, 15, 0));
         int taskId = manager.createTask(task);
@@ -48,7 +49,7 @@ public abstract class TaskManagerTest <T extends TaskManager>  {
     }
 
     @Test
-    public void shouldCorrectlyLinkSubTaskToEpic() {
+    public void shouldCorrectlyLinkSubTaskToEpic() throws NotFoundException {
         Epic epic = new Epic("Test Epic", "Epic Description", Status.NEW, Duration.ZERO, null);
         int epicId = manager.createEpic(epic);
         SubTask subTask = new SubTask("SubTask Name", "SubTask Description", Status.NEW, epicId, Duration.ofMinutes(30), LocalDateTime.of(2025, 1, 1, 11, 0));
@@ -97,7 +98,7 @@ public abstract class TaskManagerTest <T extends TaskManager>  {
     }
 
     @Test
-    public void shouldCreateAndReturnSubTask() {
+    public void shouldCreateAndReturnSubTask() throws NotFoundException {
         Epic epic = new Epic("Test Epic", "Epic Description", Status.NEW,
                 Duration.ZERO, null);
         int epicId = manager.createEpic(epic);
