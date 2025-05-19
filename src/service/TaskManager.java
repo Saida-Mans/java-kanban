@@ -3,6 +3,7 @@ import model.Epic;
 import model.SubTask;
 import model.Task;
 import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
 
@@ -18,11 +19,11 @@ public interface TaskManager {
 
     void deleteAllSubtasks();
 
-    Task getTaskById(int id);
+    Task getTaskById(int id) throws NotFoundException;
 
     Epic getEpicById(int id);
 
-    SubTask getSubtaskById(int id);
+    SubTask getSubtaskById(int id) throws NotFoundException;
 
     int createTask(Task task);
 
@@ -30,7 +31,7 @@ public interface TaskManager {
 
     int createSubtask(SubTask subtask);
 
-    void updateTask(Task task);
+    void updateTask(Task task) throws NotFoundException;
 
     void updateEpic(Epic epic);
 
@@ -45,4 +46,6 @@ public interface TaskManager {
     List<SubTask> getAllSubtasksEpic(int id);
 
     List<Task> getHistory();
+
+    Set<Task> getPrioritizedTasks();
 }

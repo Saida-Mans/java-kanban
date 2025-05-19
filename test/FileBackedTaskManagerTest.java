@@ -39,7 +39,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager>{
     }
 
     @Test
-    public void shouldCorrectlySaveAndLoad() {
+    public void shouldCorrectlySaveAndLoad() throws NotFoundException {
         Task task1 = new Task("Test Task", "Test Description", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2025, 1, 1, 10, 0));
         Epic epic1 = new Epic("Test Epic", "Test Epic description", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2025, 1, 1, 15, 0));
         int taskId = manager.createTask(task1);

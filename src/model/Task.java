@@ -10,15 +10,15 @@ import java.time.Duration;
     private String description;
     private int id;
     private Status status;
-    private final Duration duration;
-    private final LocalDateTime startTime;
+    private Duration duration;
+    private LocalDateTime startTime;
 
     public Task(String name, String description, Status status, Duration duration, LocalDateTime startTime) {
         this.name = name;
         this.description = description;
         this.id = id;
         this.status = status;
-        this.duration = duration;
+        this.duration = duration != null ? duration : Duration.ZERO;
         this.startTime = startTime;
     }
 
@@ -62,11 +62,18 @@ import java.time.Duration;
         return duration;
     }
 
+      public void setDuration(Duration duration) {
+          this.duration = duration;
+      }
+
+      public void setStartTime(LocalDateTime startTime) {
+          this.startTime = startTime;
+      }
+
     public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    // Новый метод: возвращает время завершения задачи
     public LocalDateTime getEndTime() {
         return startTime.plus(duration);
     }

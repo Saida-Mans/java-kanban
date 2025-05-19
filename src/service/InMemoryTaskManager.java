@@ -137,7 +137,11 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Task getTaskById(int id) {
+    public Task getTaskById(int id) throws NotFoundException {
+        Task task = tasks.get(id);
+        if (task == null) {
+            throw new NotFoundException("Task with ID " + id + " not found");
+        }
         historyManager.add(tasks.get(id));
         return tasks.get(id);
     }
@@ -149,7 +153,11 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public SubTask getSubtaskById(int id) {
+    public SubTask getSubtaskById(int id) throws NotFoundException {
+        SubTask subtask = subTasks.get(id);
+        if (subtask == null) {
+            throw new NotFoundException("SubTask with ID " + id + " not found");
+        }
         historyManager.add(subTasks.get(id));
         return subTasks.get(id);
     }
@@ -182,16 +190,20 @@ public class InMemoryTaskManager implements TaskManager {
         int newSubtaskId = generateId();
         subtask.setId(newSubtaskId);
         Epic epic = epics.get(subtask.getEpicId());
+
         if (epic != null) {
             if (isAnyTaskOverlapping(subtask, getAllTasksAndSubtasks())) {
                 throw new IllegalArgumentException("Подзадача пересекается с другой задачей!");
             }
             subTasks.put(newSubtaskId, subtask);
-            epic.setSubTasksIds(newSubtaskId);
+            epic.addSubTaskId(newSubtaskId);
+
             updateEpicFields(epic);
+
             if (subtask.getStartTime() != null) {
                 prioritizedTasks.add(subtask);
             }
+
             return newSubtaskId;
         } else {
             return -1;
@@ -199,13 +211,12 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void updateTask(Task task) {
+    public void updateTask(Task task) throws NotFoundException {
         if (task == null || !tasks.containsKey(task.getId())) {
-            return;
+            throw new NotFoundException("Задача с id " + task.getId() + " не найдена.");
         }
         if (isAnyTaskOverlapping(task, getAllTasksAndSubtasks())) {
-            System.out.println("Ошибка: Задача пересекается с другой задачей!");
-            return;
+            throw new IntersectionException("Задача пересекается с другой задачей.");
         }
         Task oldTask = tasks.get(task.getId());
         prioritizedTasks.remove(oldTask);
@@ -323,5 +334,10 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();
+    }
+
+    @Override
+    public Set<Task> getPrioritizedTasks() {
+        return prioritizedTasks;
     }
 }
